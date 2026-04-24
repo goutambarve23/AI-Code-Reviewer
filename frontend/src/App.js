@@ -74,7 +74,7 @@ function App() {
     setLoading(true);
     
   try {
-    const response = await fetch("https://ai-code-reviewer-1-5oek.onrender.com/", {
+    const response = await fetch("https://ai-code-reviewer-1-5oek.onrender.com/analyze", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -110,7 +110,7 @@ localStorage.setItem("history", JSON.stringify(updatedHistory));
   // FIX CODE
   const fixCode = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:5001/fix", {
+      const response = await fetch("https://ai-code-reviewer-1-5oek.onrender.com/fix", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
