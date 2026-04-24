@@ -300,10 +300,7 @@ const styles = {
     borderRadius: "8px",
     cursor: "pointer"
   },
-  link: {
-    color: "#10a37f",
-    cursor: "pointer"
-  },
+ 
   dashboard: {
   display: "flex",
   minHeight: "100vh",
