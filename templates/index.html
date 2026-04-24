@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Code Reviewer</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #343541;
+            color: white;
+            display: flex;
+        }
+
+        /* 🔥 SIDEBAR */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background: #202123;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+        }
+
+        .sidebar button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #444654;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .logout {
+            background: red;
+        }
+
+        /* 🔥 MAIN AREA */
+        .main {
+            flex: 1;
+            display: flex;
+            justify-content: center;   /* center vertically */
+            align-items: center;       /* center horizontally */
+            flex-direction: column;
+}
+        /* 🔥 CHAT AREA */
+        .chat-box {
+            padding: 30px;
+            overflow-y: auto;
+            height: 80vh;
+        }
+
+        .user-msg, .ai-msg {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            max-width: 70%;
+        }
+
+        .user-msg {
+            background: #444654;
+            margin-left: auto;
+        }
+
+        .ai-msg {
+            background: #3b3c47;
+        }
+
+        /* 🔥 INPUT BOX CENTER */
+        .input-area {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+}
+
+        .input-box {
+            width: 60%;
+            display: flex;
+            gap: 10px;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+            background: #343541;
+            color: white;
+        }
+
+        select {
+            background: #343541;
+            color: white;
+            border: none;
+        }
+
+        button.send {
+            background: #10a37f;
+            border: none;
+            padding: 10px;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 🔥 SIDEBAR -->
+<div class="sidebar">
+    <h2>🤖 Dashboard</h2>
+
+    <button>New Chat</button>
+    <button>History</button>
+
+    <form action="/logout">
+        <button class="logout">Logout</button>
+    </form>
+</div>
+
+<!-- 🔥 MAIN -->
+<div class="main">
+
+    <!-- CHAT -->
+    <div class="chat-box" id="chatBox"style="{% if not result %}display:none{% endif %}">
+
+        {% if result %}
+        <div class="user-msg">
+            {{ request.form.code }}
+        </div>
+
+        <div class="ai-msg">
+             <h3>🛠 Auto Fixed Code:</h3>
+             <pre style="background:black;color:#00ffcc;padding:10px;border-radius:10px;">
+{{ fixed_code }}
+</pre>
+            <div id="typing"></div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- INPUT -->
+    <form method="POST" class="input-area">
+    <button type="submit" name="action" value="fix">
+    🛠 Auto Fix
+</button>
+        <div class="input-box">
+
+            <select name="language">
+                <option value="python">Python</option>
+                <option value="c">C</option>
+                <option value="cpp">C++</option>
+                <option value="java">Java</option>
+            </select>
+
+            <textarea name="code" placeholder="Send code for review..."></textarea>
+
+            <button class="send">Send</button>
+
+        </div>
+    </form>
+
+</div>
+
+<!-- 🔥 TYPING ANIMATION SCRIPT -->
+<script>
+    let text = `
+<b>📊 Score:</b> {{ score }} <br><br>
+
+<b>🧠 Explanation:</b><br>
+{{ explanation | safe }} <br><br>
+
+<b>⚠ Errors:</b><br>
+{{ result | safe }} <br><br>
+
+<b>💡 Suggestions:</b><br>
+{% for s in suggestions %}
+• {{ s }} <br>
+{% endfor %}
+`;
+
+    let i = 0;
+    let speed = 15;
+
+    function typeWriter() {
+        if (i < text.length) {
+            document.getElementById("typing").innerHTML = text.slice(0, i);
+            i++;
+            setTimeout(typeWriter, speed);
+        }
+    }
+
+    window.onload = typeWriter;
+</script>
+
+</body>
+</html>
