@@ -5,8 +5,8 @@ function App() {
   const [users, setUsers] = useState(
     JSON.parse(localStorage.getItem("users")) || []
 );
-  const [loggedInUser, setLoggedInUser] = useState(
-    JSON.parse(localStorage.getItem("loggedInUser")) || null
+ const [, setLoggedInUser] = useState(
+  JSON.parse(localStorage.getItem("loggedInUser")) || null
 );
 
   const [signupData, setSignupData] = useState({
